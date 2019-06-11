@@ -20,3 +20,31 @@ def sum_row(data,col_name=None):
         return data[col_name].apply(lambda x:sum([i if pd.notnull(i) else 0 for i in x]),axis=1)
     else:
         return data.apply(lambda x:sum([i if pd.notnull(i) else 0 for i in x]),axis=1)
+
+
+
+def timing_func(f):
+    '''
+    :param f:需要增加功能的原始函数
+    :return:装饰过的函数
+    '''
+    def timing(*args,**kwargs):
+        print(time.strftime('%Y-%m-%d %H:%M:%S'),'开始')
+        start=time.perf_counter()
+        test=f(*args,**kwargs)
+        print('花费时间{:2f}mins'.format((time.perf_counter()-start)/60))
+        return test
+    return timing
+
+
+def iterator_list(lists):
+    '''lists:需要遍历的列表list，如：[list1,list2.list3]'''
+    try:
+        import reduce
+    except:
+        from functools import reduce
+    
+    def myfunc(list1,list2):
+        return [i+[j] if type(i) is list else [i,j] for i in list1 for j in list2]
+    
+    return reduce(myfunc,lists)
