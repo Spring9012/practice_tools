@@ -4,6 +4,7 @@ def is_int(x):
     :param x: 输入的数字
     :return: 是否为整数
     '''
+    import math
     x_split=math.modf(x)
     if x_split[0]==0:
         return True
@@ -48,3 +49,18 @@ def iterator_list(lists):
         return [i+[j] if type(i) is list else [i,j] for i in list1 for j in list2]
     
     return reduce(myfunc,lists)
+
+
+def bin_func(x,bin_cut_point):
+    '''
+    x:需要找到分组的值
+    bin_cut_point：cut off的值的list，已经排序完成
+    return:左开右闭
+    '''
+    order=np.searchsorted(bin_cut_point,x)
+    if order==0:
+        return '(-inf,'+str(bin_cut_point[0])+']'
+    elif order==len(bin_cut_point):
+        return '('+str(bin_cut_point[-1])+',inf)'
+    else:
+        return '('+str(bin_cut_point[order-1])+','+str(bin_cut_point[order])+']'
